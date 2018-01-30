@@ -1,14 +1,13 @@
 FROM alpine:latest
 
-# Install requirements
-RUN apk add -U openssl curl tar gzip bash ca-certificates && \
-  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub && \
-  wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.23-r3/glibc-2.23-r3.apk && \
-  apk add glibc-2.23-r3.apk && \
-  rm glibc-2.23-r3.apk
+# Install kubectl & gettext(envsubst)
 
-# Install kubectl
-RUN curl -L -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/latest.txt)/bin/linux/amd64/kubectl && \
-  chmod +x /usr/bin/kubectl && \
-  kubectl version --client
-
+RUN apk add --update ca-certificates \
+ && apk add --update -t deps curl \
+ && apk add --update gettext \
+ && curl -L -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/latest.txt)/bin/linux/amd64/kubectl \
+ && chmod +x /usr/local/bin/kubectl \
+ && apk del --purge deps \
+ && rm /var/cache/apk/* \
+ && kubectl version --client \
+ && envsubst --version

@@ -10,7 +10,7 @@ RUN apk add --update ca-certificates \
  && curl -L -o /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub \
  && curl -L -o glibc-2.26-r0.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.26-r0/glibc-2.26-r0.apk \
  && apk add glibc-2.26-r0.apk \
- && rm -f glibc-2.26-r0.apk /etc/apk/keys/sgerrand.rsa.pub
+ && rm -f glibc-2.26-r0.apk /etc/apk/keys/sgerrand.rsa.pub \
  && apk del --purge deps \
  && rm /var/cache/apk/* \
  && kubectl version --client \

@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM docker:stable
 
 # Install kubectl & helm & gettext(envsubst)
 
